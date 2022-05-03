@@ -1,6 +1,8 @@
 classdef gesla
     methods(Static)
 
+        % These scripts read in data to matlab - for faster speeds, use in memory data functions (e.g. arrayDatastore())
+
         function data = load_site(file,path,flag_removal)
             % Function to load data in GESLA-3 files
             % INPUT: 
