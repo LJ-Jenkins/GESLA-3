@@ -37,7 +37,7 @@ To quickly gain the GESLA filename for a given site, use the `site_to_file` func
 ```matlab:Code
 filename = gesla.site_to_file('Honolulu',metadata); %get user inputted filename/s from those containing 'Honolulu'
 ```
-
+<img src = "Screenshots/site_to_file_example.png" width = 500>
   
 # Load file/s
 
@@ -74,14 +74,14 @@ data = gesla.load_file(filename,path,flag_removal); %load file
 
 Utilise `site_to_file` to load data without knowing the full GESLA filename.
 
-
+<img src = "Screenshots/data_example.png" width = 500> <img src = "Screenshots/field_example.png" width = 500>
 
 ```matlab:Code
 data = gesla.load_file(gesla.site_to_file('Honolulu',metadata),path,flag_removal); %load user inputted file/s that contain 'Honolulu' in filename
 ```
 
   
-# Change field names of strucure array
+# Change field names of structure array
 
 
 The field names of the structure aray output are, by default, GESLA filenames. Use `change_field_names` to change these to any combination of GESLA site names, country codes, contributor abbreviations and site codes for easier workflow. Place '1' next to the options to create the combination you want as the field names.
@@ -91,7 +91,7 @@ The field names of the structure aray output are, by default, GESLA filenames. U
 ```matlab:Code
 data = gesla.change_field_names(data,metadata); %change field names of struct 'data'
 ```
-
+<img src = "Screenshots/change_field_names_example.png" width = 500>
   
 # Load country or countries
 
