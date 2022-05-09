@@ -1,12 +1,6 @@
 # GESLA-3
 Matlab functions for the loading of GESLA3.0 datasets.
-# Table of contents
-- [Extracting a GESLA filename](#extracting-a-gesla-filename)
-- [Load file/s](#load-file/s)
-- [Change field names of strucure array](#change-field-names-of-structure-array)
-- [Load country or countries](#load-country-or-countries)
-- [Load nearest from given coordinates](#load-nearest-from-given-coordinates)
-- [Load from bounding box](#load-from-bounding-box)
+
 
 
 # Quick User Guide
