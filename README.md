@@ -9,7 +9,7 @@ Matlab functions for the loading of GESLA3.0 datasets.
 - [Load from bounding box](#load-from-bounding-box)
 
 
-# GESLA-3 Matlab functions for loading in GESLA datasets
+# Quick User Guide
 
 
 Define the path to the metadata file and to where the GESLA data files are stored.
