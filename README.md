@@ -81,6 +81,9 @@ Utilise `site_to_file` to load data without knowing the full GESLA filename.
 data = gesla.load_file(gesla.site_to_file('Honolulu',metadata),path,gflag_removal,cflag_removal); %load user inputted file/s that contain 'Honolulu' in filename
 ```
 
+*(see below for example of an output struct 'data' that contains data from Honolulu Pier provided by UHSLC)*
+
+<img src = "Screenshots/field_example_H.png" width = 500>
   
 # Change field names of structure array
 
@@ -92,6 +95,7 @@ The field names of the structure aray output are, by default, GESLA filenames. U
 ```matlab:Code
 data = gesla.change_field_names(data,metadata); %change field names of struct 'data'
 ```
+
 <img src = "Screenshots/change_field_names_example.png" width = 500>
   
 # Load country or countries
