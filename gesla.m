@@ -1,12 +1,19 @@
 classdef gesla
     methods(Static)
 
-        function data = load_file(file,path,flag_removal)
+        function data = load_file(file,path,gflag_removal,cflag_removal)
             % Function to load data in GESLA-3 files
             % INPUT: 
             %    file -> string scalar or array with name/s of the individual file/s in GESLA format
             %    path -> directory to where the GESLA data files are kept
-            %    flag_removal - > 'y' for removing values flagged by GESLA
+            %    gflag_removal - > 'y' for removing values flagged by GESLA
+            %    cflag_removal - > remove values by entering numbers that correspond to flags by the contributor (e.g., [2,4,5])
+            %                      0 - no quality control
+            %                      1 - correct value 
+            %                      2 - interpolated value
+            %                      3 - doubtful value
+            %                      4 - isolated spike or wrong value
+            %                      5 - missing value
             %
             % OUTPUT, struct 'data' containing for each site:
             %    ts -> time in datetime 
@@ -58,10 +65,14 @@ classdef gesla
                 cont_fl = A.data(:,2);
                 gesla_fl = A.data(:,3);
 
-                if strcmp(flag_removal, 'y')
+                if strcmp(gflag_removal, 'y')
                     sl(gesla_fl == 0) = NaN;
                 end 
         
+                % remove incorrect values (according to contributor flags)
+                ii = ismember(cont_fl, cflag_removal);
+                sl(ii) = NaN;
+
                 %...Read lat & lon
                 lat = str2double(extractAfter(A.textdata(~cellfun(@isempty,cellfun(@(x)strfind(x,'LATITUDE'),...
                     A.textdata(1:headerlength,1),'UniformOutput',0)),1),'# LATITUDE'));
@@ -123,13 +134,20 @@ classdef gesla
         
         end
 
-        function data = load_bbox(bounding_box,path,metadata,flag_removal)
+        function data = load_bbox(bounding_box,path,metadata,gflag_removal,cflag_removal)
             % Function to load data in GESLA-3 files from within lat/lon bounding box
             % INPUT: 
             %    bounding_box -> [northern extent, southern extent, western extent, eastern extent]
             %    path -> directory to where the GESLA data files are kept
             %    metadata -> directory and filename for the metadata
-            %    flag_removal - > 'y' for removing values flagged by GESLA
+            %    gflag_removal - > 'y' for removing values flagged by GESLA
+            %    cflag_removal - > remove values by entering numbers that correspond to flags by the contributor (e.g., [2,4,5])
+            %                      0 - no quality control
+            %                      1 - correct value 
+            %                      2 - interpolated value
+            %                      3 - doubtful value
+            %                      4 - isolated spike or wrong value
+            %                      5 - missing value
             %
             % OUTPUT, struct 'data' containing for each site:
             %    ts -> time in datetime 
@@ -151,18 +169,25 @@ classdef gesla
             filenames = string(md.FILENAME((md.LATITUDE >= bounding_box(2)  &  md.LATITUDE <= bounding_box(1)) &...
                 (md.LONGITUDE >= bounding_box(3)  &  md.LONGITUDE <= bounding_box(4))));
         
-            data = gesla.load_file(filenames,path,flag_removal);
+            data = gesla.load_file(filenames,path,gflag_removal,cflag_removal);
         
         end
 
-        function data = load_nearest(coords,n,path,metadata,flag_removal)
+        function data = load_nearest(coords,n,path,metadata,gflag_removal,cflag_removal)
             % Function to load data in GESLA-3 files with nearest lat/lon to given coordinates in *Euclidean distance*
             % INPUT: 
             %    coords -> coordinates to use (lon,lat)
             %    n -> number of nearest sites to select
             %    path -> directory to where the GESLA data files are kept
             %    metadata -> directory and filename for the metadata
-            %    flag_removal - > 'y' for removing values flagged by GESLA
+            %    gflag_removal - > 'y' for removing values flagged by GESLA
+            %    cflag_removal - > remove values by entering numbers that correspond to flags by the contributor (e.g., [2,4,5])
+            %                      0 - no quality control
+            %                      1 - correct value 
+            %                      2 - interpolated value
+            %                      3 - doubtful value
+            %                      4 - isolated spike or wrong value
+            %                      5 - missing value
             %
             % OUTPUT, struct 'data' containing for each site:
             %    ts -> time in datetime 
@@ -186,11 +211,11 @@ classdef gesla
 
             filenames = string(md.FILENAME(i));
         
-            data = gesla.load_file(filenames,path,flag_removal);
+            data = gesla.load_file(filenames,path,gflag_removal,cflag_removal);
         
         end
 
-        function data = load_country(country,path,metadata,flag_removal)
+        function data = load_country(country,path,metadata,gflag_removal,cflag_removal)
             % Function to load data in GESLA-3 files from specific country
             % INPUT: 
             %    country -> 3 letter country code used in GESLA, e.g. 'GBR' or 'JPN'
@@ -198,7 +223,14 @@ classdef gesla
             %    n -> number of nearest sites to select
             %    path -> directory to where the GESLA data files are kept
             %    metadata -> directory and filename for the metadata
-            %    flag_removal - > 'y' for removing values flagged by GESLA
+            %    gflag_removal - > 'y' for removing values flagged by GESLA
+            %    cflag_removal - > remove values by entering numbers that correspond to flags by the contributor (e.g., [2,4,5])
+            %                      0 - no quality control
+            %                      1 - correct value 
+            %                      2 - interpolated value
+            %                      3 - doubtful value
+            %                      4 - isolated spike or wrong value
+            %                      5 - missing value
             %
             % OUTPUT, struct 'data' containing for each site:
             %    ts -> time in datetime 
@@ -219,7 +251,7 @@ classdef gesla
 
             filenames = string(md.FILENAME(contains(md.COUNTRY,string(country))));
         
-            data = gesla.load_file(filenames,path,flag_removal);
+            data = gesla.load_file(filenames,path,gflag_removal,cflag_removal);
         
         end
 
