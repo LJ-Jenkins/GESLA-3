@@ -19,7 +19,14 @@ Define the path to the metadata file and to where the GESLA data files are store
 ```matlab:Code
 path='C:\Users\ljj1n20\OneDrive - University of Southampton\GESLA\data\GESLA3.0_ALL\'; %path to GESLA data files
 metadata='C:\Users\ljj1n20\OneDrive - University of Southampton\GESLA\data\GESLA3_ALL 2.csv'; %metadata .csv file
-flag_removal = 'y'; %remove GESLA flagged data
+gflag_removal = 'y'; %remove GESLA flagged data
+cflag_removal = [3 4 5]; %remove contributor flags, where:
+% 0 - no quality control
+% 1 - correct value 
+% 2 - interpolated value
+% 3 - doubtful value
+% 4 - isolated spike or wrong value
+% 5 - missing value
 ```
 
 
@@ -67,7 +74,7 @@ More information about inputs and outputs can be found within `gesla.m`.
 
 
 ```matlab:Code
-data = gesla.load_file(filename,path,flag_removal); %load file 
+data = gesla.load_file(filename,path,gflag_removal,cflag_removal); %load file 
 ```
 
 
@@ -77,7 +84,7 @@ Utilise `site_to_file` to load data without knowing the full GESLA filename.
 <img src = "Screenshots/data_example.png" width = 500> <img src = "Screenshots/field_example.png" width = 500>
 
 ```matlab:Code
-data = gesla.load_file(gesla.site_to_file('Honolulu',metadata),path,flag_removal); %load user inputted file/s that contain 'Honolulu' in filename
+data = gesla.load_file(gesla.site_to_file('Honolulu',metadata),path,gflag_removal,cflag_removal); %load user inputted file/s that contain 'Honolulu' in filename
 ```
 
   
@@ -101,8 +108,8 @@ Load all files from a given country or countries.
 
 
 ```matlab:Code
-data = gesla.load_country('NZL',path,metadata,flag_removal); %load all files from New Zealand
-data = gesla.load_country(["NZL","ZAF"],path,metadata,flag_removal); %load all files from New Zealand and South Africa
+data = gesla.load_country('NZL',path,metadata,gflag_removal,cflag_removal); %load all files from New Zealand
+data = gesla.load_country(["NZL","ZAF"],path,metadata,gflag_removal,cflag_removal); %load all files from New Zealand and South Africa
 ```
 
 # Load nearest from given coordinates
@@ -113,7 +120,7 @@ Load a given number of files whose gauges are closest to the given coordinates i
 
 
 ```matlab:Code
-data = gesla.load_nearest([-5 45],5,path,metadata,flag_removal); %load the 5 nearest gauges to specified lon,lat
+data = gesla.load_nearest([-5 45],5,path,metadata,gflag_removal,cflag_removal); %load the 5 nearest gauges to specified lon,lat
 ```
 
 # Load from bounding box
@@ -124,6 +131,6 @@ Load all files from gauges within the bounding box specified.
 
 
 ```matlab:Code
-data = gesla.load_bbox([50 45 -5 0],path,metadata,flag_removal); %load all gauges within the bbox of [northernmost extent, southernmost extent, westernmost extent, easternmost extent
+data = gesla.load_bbox([50 45 -5 0],path,metadata,gflag_removal,cflag_removal); %load all gauges within the bbox of [northernmost extent, southernmost extent, westernmost extent, easternmost extent
 ```
 
