@@ -12,7 +12,7 @@ Matlab functions for the loading of GESLA3.0 datasets.
 # Quick User Guide
 
 
-Define the path to the metadata file and to where the GESLA data files are stored.
+Define the path to the metadata file, where the GESLA data files are stored, and your flag removal preferences.
 
 
 
