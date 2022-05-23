@@ -63,12 +63,6 @@ Outputs: a structure array containing a field for each site that within stores t
 
 
 
-
-*(see below for example of an output struct 'data' that contains all files from Great Britain and South Africa, and an example of the data within the field of 'newlyn_cornwall_194a_gbr_uhslc')*
-
-
-
-
 More information about inputs and outputs can be found within `gesla.m`.
 
 
@@ -81,7 +75,7 @@ data = gesla.load_file(filename,path,gflag_removal,cflag_removal); %load file
 
 Utilise `site_to_file` to load data without knowing the full GESLA filename.
 
-<img src = "Screenshots/data_example.png" width = 500> <img src = "Screenshots/field_example.png" width = 500>
+
 
 ```matlab:Code
 data = gesla.load_file(gesla.site_to_file('Honolulu',metadata),path,gflag_removal,cflag_removal); %load user inputted file/s that contain 'Honolulu' in filename
@@ -109,8 +103,13 @@ Load all files from a given country or countries.
 
 ```matlab:Code
 data = gesla.load_country('NZL',path,metadata,gflag_removal,cflag_removal); %load all files from New Zealand
-data = gesla.load_country(["NZL","ZAF"],path,metadata,gflag_removal,cflag_removal); %load all files from New Zealand and South Africa
+data = gesla.load_country(["GBR","ZAF"],path,metadata,gflag_removal,cflag_removal); %load all files from Great Britain and South Africa
 ```
+
+*(see below for example of an output struct 'data' that contains all files from Great Britain and South Africa, and an example of the data within the field of 'newlyn_cornwall_194a_gbr_uhslc')*
+
+<img src = "Screenshots/data_example.png" width = 500> <img src = "Screenshots/field_example.png" width = 500>
+
 
 # Load nearest from given coordinates
 
