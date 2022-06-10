@@ -51,7 +51,7 @@ classdef gesla_p
             
             d = cell([size(file,2),1]);
             
-            if isempty(gcp('nocreate'))
+            if isempty(gcp('nocreate')) && isnumeric(nw)
                 parpool('local',nw); % start a pool with nw workers if no pool running
             end
 
