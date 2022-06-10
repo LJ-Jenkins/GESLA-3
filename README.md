@@ -138,7 +138,7 @@ data = gesla.load_bbox([50 45 -5 0],path,metadata,gflag_removal,cflag_removal); 
 ```
 
 # Gesla - Parallel Computing 
-### requires the Parallel Computing Toolbox
+***Requires the Parallel Computing Toolbox***
 
 I will try to update the code with more big data/parallel computing solutions as and when I have time. 
 
