@@ -137,3 +137,16 @@ Load all files from gauges within the bounding box specified.
 data = gesla.load_bbox([50 45 -5 0],path,metadata,gflag_removal,cflag_removal); %load all gauges within the bbox of [northernmost extent, southernmost extent, westernmost extent, easternmost extent
 ```
 
+# Gesla - Parallel Computing
+
+I will try to update the code with more big data/parallel computing solutions as and when I have time.
+
+To start I have created `gesla_p.m` that adds the parallel for loop function `parfor()` to load in sites simultaneously. This will improve speeds with large amounts of data but the time it takes to start a workers pool will cause the script to be slower on smaller amounts of data.
+
+`gesla_p.m` follows the same syntax as `gesla.m` but with an added input `'nw'` to the load functions. `nw` is the number of workers for a pool, it will only create a pool if there is no pool currently active and will not override a current running pool even if the number of workers is different.
+
+E.g.,
+```matlab:Code
+nw = 6;
+data = gesla_p.load_bbox([50 45 -5 0],path,metadata,gflag_removal,cflag_removal,nw); %run previous bbox code in parallel for loop with a workers pool of 6
+```
