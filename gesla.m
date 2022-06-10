@@ -50,46 +50,54 @@ classdef gesla
             end
         
             for i = file
-            
+                
                 %...Import data
-                A = importdata(strcat(path,q,i),' ',headerlength);
-        
-                %...Transform time to datetime format
-                dt = datetime(A.textdata(headerlength+1:end,1),'InputFormat','yyyy/MM/dd')+...
-                    duration(A.textdata(headerlength+1:end,2),'InputFormat','hh:mm:ss');
-        
-                %...Read sea level observations 
-                sl=A.data(:,1);
-        
-                % remove incorrect values (according to gesla flag)
-                cont_fl = A.data(:,2);
-                gesla_fl = A.data(:,3);
+                fid = fopen(strcat(path,q,file(i)),'r');
+                hd = cell(headerlength,1);
+                for ih = 1:headerlength
+                    hd(ih) = {fgetl(fid)};
+                end
+                d = textscan(fid,'%q %q %f %f %d');
+                fclose(fid);
+            
+                %...Get datenum and datetime
+                dt = datetime(d{:,1},'Format','yyyy/MM/dd');
+                dt.Format = 'yyyy/MM/dd HH:mm:ss';
+                dt = dt + timeofday(datetime(d{:,2},'Format','HH:mm:ss'));
+                dn = datenum(dt);
 
+                %...Read sea level observations 
+                sl = cell2mat(d(3));
+            
+                % remove incorrect values (according to gesla flag)
+                cont_fl = cell2mat(d(4));
+                gesla_fl = cell2mat(d(5));
+            
                 if strcmp(gflag_removal, 'y')
                     sl(gesla_fl == 0) = NaN;
                 end 
-        
+            
                 % remove incorrect values (according to contributor flags)
                 ii = ismember(cont_fl, cflag_removal);
                 sl(ii) = NaN;
-
+            
                 %...Read lat & lon
-                lat = str2double(extractAfter(A.textdata(~cellfun(@isempty,cellfun(@(x)strfind(x,'LATITUDE'),...
-                    A.textdata(1:headerlength,1),'UniformOutput',0)),1),'# LATITUDE'));
-        
-                lon = str2double(extractAfter(A.textdata(~cellfun(@isempty,cellfun(@(x)strfind(x,'LONGITUDE'),...
-                    A.textdata(1:headerlength,1),'UniformOutput',0)),1),'# LONGITUDE'));
+                lat = str2double(extractAfter(hd(~cellfun(@isempty,cellfun(@(x)strfind(x,'LATITUDE'),...
+                    hd,'UniformOutput',0)),1),'# LATITUDE'));
+            
+                lon = str2double(extractAfter(hd(~cellfun(@isempty,cellfun(@(x)strfind(x,'LONGITUDE'),...
+                hd,'UniformOutput',0)),1),'# LONGITUDE'));
                 
                 %...Read metadata info
-                datum = strtrim(string(extractAfter(A.textdata(~cellfun(@isempty,cellfun(@(x)strfind(x,'DATUM INFORMATION'),...
-                    A.textdata(1:headerlength,1),'UniformOutput',0)),1),'# DATUM INFORMATION')));
-
-                gauge = strcat(strtrim(string(extractAfter(A.textdata(~cellfun(@isempty,cellfun(@(x)strfind(x,'INSTRUMENT'),...
-                    A.textdata(1:headerlength,1),'UniformOutput',0)),1),'# INSTRUMENT'))), " - ", ...
-                    strtrim(string(extractAfter(A.textdata(~cellfun(@isempty,cellfun(@(x)strfind(x,'GAUGE TYPE'),...
-                    A.textdata(1:headerlength,1),'UniformOutput',0)),1),'# GAUGE TYPE'))));
-
-                cont_fl_info = string(A.textdata(find(string(A.textdata(1:headerlength,1)) ==...
+                datum = strtrim(string(extractAfter(hd(~cellfun(@isempty,cellfun(@(x)strfind(x,'DATUM INFORMATION'),...
+                hd,'UniformOutput',0)),1),'# DATUM INFORMATION')));
+            
+                gauge = strcat(strtrim(string(extractAfter(hd(~cellfun(@isempty,cellfun(@(x)strfind(x,'INSTRUMENT'),...
+                hd,'UniformOutput',0)),1),'# INSTRUMENT'))), " - ", ...
+                    strtrim(string(extractAfter(hd(~cellfun(@isempty,cellfun(@(x)strfind(x,'GAUGE TYPE'),...
+                hd,'UniformOutput',0)),1),'# GAUGE TYPE'))));
+            
+                cont_fl_info = string(hd(find(string(hd(1:headerlength,1)) ==...
                     '# Quality-control (QC) flags for column 4'):headerlength,1));
 
                 data.(strrep(i,'-','_')).ts = dt; 
