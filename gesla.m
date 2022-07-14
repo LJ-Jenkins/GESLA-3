@@ -52,7 +52,7 @@ classdef gesla
             for i = file
                 
                 %...Import data
-                fid = fopen(strcat(path,q,file(i)),'r');
+                fid = fopen(strcat(path,q,i),'r');
                 hd = cell(headerlength,1);
                 for ih = 1:headerlength
                     hd(ih) = {fgetl(fid)};
