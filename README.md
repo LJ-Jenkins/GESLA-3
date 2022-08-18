@@ -134,7 +134,7 @@ Load all files from gauges within the bounding box specified.
 
 
 ```matlab:Code
-data = gesla.load_bbox([50 45 -5 0],path,metadata,gflag_removal,cflag_removal); %load all gauges within the bbox of [northernmost extent, southernmost extent, westernmost extent, easternmost extent
+data = gesla.load_bbox([50 45 -5 0],path,metadata,gflag_removal,cflag_removal); %load all gauges within the bbox of [northernmost extent, southernmost extent, westernmost extent, easternmost extent]
 ```
 
 
