@@ -17,8 +17,8 @@ Define the path to the metadata file, where the GESLA data files are stored, and
 
 
 ```matlab:Code
-path='C:\Users\ljj1n20\OneDrive - University of Southampton\GESLA\data\GESLA3.0_ALL\'; %path to GESLA data files
-metadata='C:\Users\ljj1n20\OneDrive - University of Southampton\GESLA\data\GESLA3_ALL 2.csv'; %metadata .csv file
+path='C:\path_to_your_GESLA3_files\'; %path to GESLA data files
+metadata='C:\path_to_your_GESLA3_metadata\GESLA3_metadata.csv'; %metadata .csv file
 gflag_removal = 'y'; %remove GESLA flagged data
 cflag_removal = [3 4 5]; %remove contributor flags, where:
 % 0 - no quality control
