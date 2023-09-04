@@ -228,7 +228,6 @@ classdef gesla
             % INPUT: 
             %    country -> 3 letter country code used in GESLA, e.g. 'GBR' or 'JPN'
             %               takes as many country codes as you give as either string or char array
-            %    n -> number of nearest sites to select
             %    path -> directory to where the GESLA data files are kept
             %    metadata -> directory and filename for the metadata
             %    gflag_removal - > 'y' for removing values flagged by GESLA
